@@ -1,3 +1,4 @@
+import { useState } from "react";
 import MovieCard from "../components/MovieCard"
 
 const URLS = {
@@ -8,6 +9,8 @@ const URLS = {
 
 export default function Home() {
 
+  const [searchQuery, setSearchQuery] = useState(""); 
+
   const moviesList = [
     { id: 1, url: URLS.oneplusone, title: "1+1", releaseDate: "2011" },
     { id: 2, url: URLS.interstellar, title: "Interstellar", releaseDate: "2014" },
@@ -16,18 +19,19 @@ export default function Home() {
 
   function handleSearch(e) {
     e.preventDefault();
-    console.log('search');
+    console.log(searchQuery);
+    setSearchQuery("");
   }
 
   return (
     <div className="home">
       <form className="search-form" onSubmit={event => handleSearch(event)}>
-        <input className="search-input" type="text" placeholder="Search for movies..." />
+        <input className="search-input" type="text" placeholder="Search for movies..." value={searchQuery} onChange={e => setSearchQuery(e.target.value)}/>
         <button className="search-button" type="submit">Search</button>
       </form>
       <div className="movies-grid">
         {moviesList.map(movie => (
-          <MovieCard key={movie.id} movie={movie}/>
+          movie.title.toLowerCase().startsWith(searchQuery) && <MovieCard key={movie.id} movie={movie}/>
         ))}
       </div>
     </div>
