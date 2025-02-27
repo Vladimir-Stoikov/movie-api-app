@@ -1,5 +1,6 @@
 import { useState } from "react";
 import MovieCard from "../components/MovieCard"
+import "../css/Home.css"
 
 const URLS = {
   oneplusone: "https://avatars.mds.yandex.net/get-kinopoisk-image/10900341/caf9f155-1a19-42f1-a0f3-9c8773e9083e/72x108",
