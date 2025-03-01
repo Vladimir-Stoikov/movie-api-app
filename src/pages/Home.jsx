@@ -1,6 +1,7 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import MovieCard from "../components/MovieCard"
 import "../css/Home.css"
+import { getMoviesList } from "../services/apiHandler";
 
 const URLS = {
   oneplusone: "https://avatars.mds.yandex.net/get-kinopoisk-image/10900341/caf9f155-1a19-42f1-a0f3-9c8773e9083e/72x108",
@@ -10,13 +11,32 @@ const URLS = {
 
 export default function Home() {
 
-  const [searchQuery, setSearchQuery] = useState(""); 
+  const [searchQuery, setSearchQuery] = useState("");
+  const [movies, setMovies] = useState([]);
+  const [error, setError] = useState(null);
+  const [loading, setLoading] = useState(true)
 
   const moviesList = [
     { id: 1, url: URLS.oneplusone, title: "1+1", releaseDate: "2011" },
     { id: 2, url: URLS.interstellar, title: "Interstellar", releaseDate: "2014" },
     { id: 3, url: URLS.theShawshankRedemption, title: "The Shawshank Redemption", releaseDate: "1994" },
   ];
+
+  useEffect(() => {
+    const loadData = async () => {
+      try {
+        const moviesData = await getMoviesList();
+        setMovies(moviesData);
+        console.log(movies);
+      } catch(err) {
+        console.log(err);
+      } finally {
+        setLoading(false);
+      }
+    }
+
+    loadData();
+  }, [])
 
   function handleSearch(e) {
     e.preventDefault();
