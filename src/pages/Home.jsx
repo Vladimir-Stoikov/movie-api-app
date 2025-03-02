@@ -27,9 +27,8 @@ export default function Home() {
       try {
         const moviesData = await getMoviesList();
         setMovies(moviesData);
-        console.log(movies);
       } catch(err) {
-        console.log(err);
+        setError("Failed to load...", err);
       } finally {
         setLoading(false);
       }
@@ -37,6 +36,8 @@ export default function Home() {
 
     loadData();
   }, [])
+
+  console.log(movies);
 
   function handleSearch(e) {
     e.preventDefault();
