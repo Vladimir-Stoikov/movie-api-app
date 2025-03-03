@@ -26,7 +26,7 @@ export default function Home() {
     const loadData = async () => {
       try {
         const moviesData = await getMoviesList();
-        setMovies(moviesData);
+        setMovies(moviesData.items);
       } catch(err) {
         setError("Failed to load...", err);
       } finally {
@@ -45,6 +45,8 @@ export default function Home() {
     setSearchQuery("");
   }
 
+  // console.log(movies.map(mov => console.log(mov)));
+
   return (
     <div className="home">
       <form className="search-form" onSubmit={event => handleSearch(event)}>
@@ -52,10 +54,12 @@ export default function Home() {
         <button className="search-button" type="submit">Search</button>
       </form>
       <div className="movies-grid">
-        {moviesList.map(movie => (
-          movie.title.toLowerCase().startsWith(searchQuery) && <MovieCard key={movie.id} movie={movie}/>
+        {movies.map(movie => (
+          movie.nameRu && movie.nameRu.toLowerCase().startsWith(searchQuery) && <MovieCard key={movie.kinopoiskId} movie={{id: movie.kinopoiskId, url: movie.posterUrl, title: movie.nameRu, releaseDate: movie.year}}/>
+          // <div>{movie.nameRu}</div>
         ))}
       </div>
     </div>
   )
 }
+
