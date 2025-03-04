@@ -45,20 +45,25 @@ export default function Home() {
     setSearchQuery("");
   }
 
-  // console.log(movies.map(mov => console.log(mov)));
-
+  
   return (
     <div className="home">
       <form className="search-form" onSubmit={event => handleSearch(event)}>
         <input className="search-input" type="text" placeholder="Search for movies..." value={searchQuery} onChange={e => setSearchQuery(e.target.value)}/>
         <button className="search-button" type="submit">Search</button>
       </form>
+
+      {error && <div className="error-message">{error}</div>}
+
+      {loading ? <div className="loading">Loading...</div> : 
+
       <div className="movies-grid">
         {movies.map(movie => (
           movie.nameRu && movie.nameRu.toLowerCase().startsWith(searchQuery) && <MovieCard key={movie.kinopoiskId} movie={{id: movie.kinopoiskId, url: movie.posterUrl, title: movie.nameRu, releaseDate: movie.year}}/>
           // <div>{movie.nameRu}</div>
         ))}
       </div>
+      }
     </div>
   )
 }
