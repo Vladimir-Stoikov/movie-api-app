@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import MovieCard from "../components/MovieCard"
 import "../css/Home.css"
-import { getMoviesList } from "../services/apiHandler";
+import { getMoviesList, searchMovies } from "../services/apiHandler";
 
 const URLS = {
   oneplusone: "https://avatars.mds.yandex.net/get-kinopoisk-image/10900341/caf9f155-1a19-42f1-a0f3-9c8773e9083e/72x108",
@@ -39,10 +39,22 @@ export default function Home() {
 
   console.log(movies);
 
-  function handleSearch(e) {
+  async function handleSearch(e) {
     e.preventDefault();
-    console.log(searchQuery);
-    setSearchQuery("");
+    if(!searchQuery.trim()) return;
+    if(loading) return;
+    setLoading(true);
+    try {
+      const searchResults = await searchMovies(searchQuery);
+      setMovies(searchResults);
+      setError(null);
+    } catch (err) {
+      console.log(err);
+      setError("Failed to search...")
+    } finally {
+      setLoading(false);
+    }
+
   }
 
   
