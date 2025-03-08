@@ -14,7 +14,8 @@ export default function Home() {
     const loadData = async () => {
       try {
         const moviesData = await getPopularMovies();
-        setMovies(moviesData.items);
+        console.log(moviesData);
+        setMovies(moviesData);
       } catch(err) {
         setError("Failed to load...", err);
       } finally {
@@ -54,13 +55,11 @@ export default function Home() {
 
       {loading ? <div className="loading">Loading...</div> : 
 
-      // <div className="movies-grid">
-      //     {movies.map((movie, index) => (
-      //       // <MovieCard movie={movie} key={movie.id} />
-      //       <div key={index}>1</div>
-      //     ))}
-      // </div>
-      <div>check</div>
+      <div className="movies-grid">
+          {movies.map(movie => (
+            <MovieCard movie={movie} key={movie.id} />
+          ))}
+      </div>
       }
     </div>
   )
