@@ -14,7 +14,6 @@ export default function Home() {
     const loadData = async () => {
       try {
         const moviesData = await getPopularMovies();
-        console.log(moviesData);
         setMovies(moviesData);
       } catch(err) {
         setError("Failed to load...", err);
